@@ -26,11 +26,20 @@ module CarrierWave
         private
           
           def decode_#{column}_data
+            file_filename  = decoded_#{column}_filename
+            file_extension = decoded_#{column}_extension
+            
+            if @#{column}_data.is_a?(Hash)
+              file_filename   = @#{column}_data[:name] || file_filename
+              file_extension  = @#{column}_data[:ext]  || file_extension
+              @#{column}_data = @#{column}_data[:data]
+            end
+            
             file = Tempfile.new('carrierwave-data')
             file.binmode
             file.write(Base64.decode64(@#{column}_data))
             
-            filename = [decoded_#{column}_filename, decoded_#{column}_extension].compact.join('.')
+            filename = [file_filename, file_extension].compact.join('.')
             self.#{column} = ActionDispatch::Http::UploadedFile.new(tempfile: file, filename: filename)
           end
         RUBY

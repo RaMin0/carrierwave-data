@@ -32,7 +32,13 @@ A `User`'s `avatar` can be set using a Base64 encoded string, as follows.
 
 ```ruby
 user = User.new
-user.avatar_data = 'iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAIAAABuBvAAAABGdBTUE...kJggg=='
+user.avatar_data = {
+  data: 'iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAIAAABuBvAAAABGdBTUE...kJggg==',
+  name: 'avatar',
+  ext:  'jpg'
+}
+## or
+# user.avatar_data = 'iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAIAAABuBvAAAABGdBTUE...kJggg=='
 user.save
     
 user.avatar? # => true
